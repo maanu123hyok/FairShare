@@ -1,4 +1,4 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, useLocation} from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import { useEffect,useState } from "react";
 
@@ -6,9 +6,10 @@ const authOptions=["login","register"];
 
 const Navbar=()=>{
     const [token,setToken]=useState(localStorage.getItem("token"));
+    const location =useLocation();
     useEffect(()=>{
         setToken(localStorage.getItem("token"));
-    },[token])
+    },[location])
     return (
         <>
         <div className="bg-[#F0F0F0] font-lato py-3 px-4 flex justify-between items-center shadow-md">
