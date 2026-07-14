@@ -61,6 +61,7 @@ import { useNavigate,NavLink } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 const Login=()=>{
+    const API_BASE = import.meta.env.VITE_API_BASE_URL;
        const navigate=useNavigate();
        const [credentials,setCredentials]=useState({
         email:"",
@@ -75,7 +76,7 @@ const Login=()=>{
     async function handleSubmit(e){
         e.preventDefault();
         try{
-            const data=await axios.post("http://localhost:2000/api/auth/login",credentials);
+            const data=await axios.post(`${API_BASE}/auth/login`,credentials);
             const token=data.data.token;
             localStorage.setItem("token",token);
             navigate('/');

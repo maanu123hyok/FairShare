@@ -64,6 +64,7 @@ import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Register=()=>{
+    const API_BASE = import.meta.env.VITE_API_BASE_URL;
     const navigate=useNavigate();
     const [credentials,setCredentials]=useState({
         name:"",
@@ -79,12 +80,13 @@ const Register=()=>{
     async function handleSubmit(e){
         e.preventDefault();
         try{
-            const data=await axios.post("http://localhost:2000/api/auth/register",credentials);
+            const data=await axios.post(`${API_BASE}/auth/register`,credentials);
             const token=data.data.token;
             localStorage.setItem("token",token);
             navigate('/');
         }
         catch(err){
+
             navigate('/error',{state:{message:err.response.data.message}});
         }
         setCredentials({
