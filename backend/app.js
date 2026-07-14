@@ -19,7 +19,7 @@ const groupRoutes=require("./routes/groups");
 const dashboardRoute=require("./routes/dashboard");
 
 app.use(cors({
-    origin:["http://localhost:5173","http://localhost:2000"],
+    origin:["http://localhost:5173","http://localhost:2000","https://fair-share-ten.vercel.app"],
     methods:["GET","POST","PATCH","DELETE"],
     credentials:true,
     allowedHeaders:['Content-Type','Authorization']
