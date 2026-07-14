@@ -125,7 +125,7 @@ const UpdateGroup=()=>{
       function handleChange(e, idx) {
         setGroupCredentials((prev) => {
           if (idx != null) {
-            const updatedMembers = [...prev.grpMembers];
+            let updatedMembers = [...prev.grpMembers];
             (e.target.value===""||e.target.value===" ")?updatedMembers=element.grpMembers:updatedMembers[idx] = e.target.value;
             return {
               ...prev,
