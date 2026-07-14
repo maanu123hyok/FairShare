@@ -21,7 +21,6 @@ const Navbar=()=>{
             <div className="flex gap-1 justify-center items-center">
                 <ul className="flex gap-4">
                     <NavLink to="/">Home</NavLink>
-                    <li className="cursor-pointer">About</li>
                     <NavLink to={token?"groups":"register"}>CreateYourGroups</NavLink>
                 </ul>
 

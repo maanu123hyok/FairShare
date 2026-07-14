@@ -1,4 +1,45 @@
-import { useRouteError, useLocation,useNavigate } from "react-router-dom";
+// import { useRouteError, useLocation,useNavigate } from "react-router-dom";
+
+// const Error = () => {
+//   const navigate=useNavigate();
+//   const error = useRouteError();
+//   const apiError = useLocation();
+//   const displayError =
+//     apiError.state?.message ||
+//     error?.data ||
+//     error?.message ||
+//     "Internal Server Error Occured"; //error<.data shows msg for page not found and error?.message shows msg for any other error
+
+//     function handleGoBack(){
+//       navigate(-1);
+//     }
+    
+//   return (
+//     <>
+//       <div className="flex flex-col justify-center items-center mt-20">
+//         <h2 className="font-asul">OOPS! AN ERROR OCCURED</h2>
+//         <div className="font-asul">
+//           {error&&error.status == 404 ? (
+//             <h2>Page Not Found</h2>
+//           ) : displayError ? (
+//             <h2>{displayError}</h2>
+//           ) : (
+//             ""
+//           )}
+//         </div>
+
+//         <button onClick={handleGoBack} className="p-2 cursor-pointer bg-black text-white rounded-full">
+//            GO BACK
+//         </button>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Error;
+
+
+import { useRouteError, useLocation, useNavigate } from "react-router-dom";
 
 const Error = () => {
   const navigate=useNavigate();
@@ -16,21 +57,30 @@ const Error = () => {
     
   return (
     <>
-      <div className="flex flex-col justify-center items-center mt-20">
-        <h2 className="font-asul">OOPS! AN ERROR OCCURED</h2>
-        <div className="font-asul">
-          {error&&error.status == 404 ? (
-            <h2>Page Not Found</h2>
-          ) : displayError ? (
-            <h2>{displayError}</h2>
-          ) : (
-            ""
-          )}
-        </div>
+      <div className="flex flex-col justify-center items-center mt-20 px-4 font-lato">
+        <div className="w-full max-w-md bg-white border border-[#BCB3B1]/40 p-8 rounded-2xl shadow-sm flex flex-col justify-center items-center text-center">
+          <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center mb-6">
+            <span className="text-red-500 text-2xl font-bold">!</span>
+          </div>
 
-        <button onClick={handleGoBack} className="p-2 cursor-pointer bg-black text-white rounded-full">
-           GO BACK
-        </button>
+          <h2 className="font-asul font-bold text-2xl text-[#988B7B] tracking-wide mb-4">
+            OOPS! AN ERROR OCCURED
+          </h2>
+
+          <div className="text-slate-500 text-sm mb-8 leading-relaxed max-w-xs font-semibold uppercase tracking-wider">
+            {error&&error.status == 404 ? (
+              <h2>Page Not Found</h2>
+            ) : displayError ? (
+              <h2>{displayError}</h2>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <button onClick={handleGoBack} className="px-6 py-2.5 cursor-pointer bg-black hover:bg-slate-800 text-white text-sm font-medium rounded-3xl tracking-wide uppercase transition-colors">
+             GO BACK
+          </button>
+        </div>
       </div>
     </>
   );

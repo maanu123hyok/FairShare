@@ -129,7 +129,7 @@ const deleteExpense=async(req,res)=>{
 
 // in update add 1 option if when amt returned is updated and total debt becomes less than or equal to 0,see then
 const updateExpense=async(req,res)=>{
-    const {params:{groupId,expenseId},body:{expName,amtPaid,whoPaid,forWhomPaid,amtReturned}}=req;
+    let {params:{groupId,expenseId},body:{expName,amtPaid,whoPaid,forWhomPaid,amtReturned}}=req;
     const currentUser=req.user.id;
 
     const group=await checkingValidGroup(groupId);// checking if the group exists
@@ -139,6 +139,12 @@ const updateExpense=async(req,res)=>{
     if(!expense){
         throw new notFound("This expense is not found in the group");
     }
+
+    const whoPaidId=await userSchema.findOne({email:whoPaid}).select("_id");
+    whoPaid=whoPaidId;
+
+    const forWhomPaidId=await userSchema.findOne({email:forWhomPaid}).select("_id");
+    forWhomPaid=forWhomPaidId;
 
     const validUser=await expenseSchema.findOne({$or:[{forWhomPaid:currentUser},{whoPaid:currentUser}]});
     if(groupCreatorId!=currentUser&&!validUser){
@@ -189,7 +195,7 @@ const getAllExpensesInGroup=async(req,res)=>{
         throw new unauth('You are not authorized to access this group');
     }
 
-    const expenses=await expenseSchema.find({groupId,$or:[{whoPaid:currentUserId},{forWhomPaid:currentUserId},{createdBy:currentUserId}]});
+    const expenses=await expenseSchema.find({groupId,$or:[{whoPaid:currentUserId},{forWhomPaid:currentUserId},{createdBy:currentUserId}]}).populate([{path:"forWhomPaid",select:"email"},{path:"whoPaid",select:"email"}]);
     res.status(StatusCodes.OK).json({expenses});
 }
 
@@ -199,11 +205,11 @@ const getExpense=async(req,res)=>{
     const group=await checkingValidGroup(groupId);
     const currentUserId=req.user.id;
 
-    const expense=await expenseSchema.findOne({groupId,_id:expenseId});
+    const expense=await expenseSchema.findOne({groupId,_id:expenseId}).populate([{path:"whoPaid",select:"email"},{path:"forWhomPaid",select:"email"}]);
     if(!expense){
         throw new notFound("This expense is not found in the group");
     }
-    if(expense.whoPaid!=currentUserId && expense.forWhomPaid!=currentUserId && expense.createdBy!=currentUserId){
+    if(expense.whoPaid._id!=currentUserId && expense.forWhomPaid._id!=currentUserId && expense.createdBy!=currentUserId){
         throw new unauth("You are not authorized to access this expense");
     }
 
